@@ -2,10 +2,7 @@ package com.lambdaschool.countries;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -59,5 +56,13 @@ public class CountryController {
         ArrayList<Country> rtnCountriesByLength = JavaCountriesProjectApplication.countryList.findCountries(c-> c.getName().length() >= number);{
             return new ResponseEntity<>(rtnCountriesByLength, HttpStatus.OK);
         }
+
     }
+    @GetMapping(value = "age/median", produces = {"application/json"})
+    public ResponseEntity<?> getMedianAge(){
+        JavaCountriesProjectApplication.countryList.countryList.sort((c1,c2)-> c1.getMedianAge()-c2.getMedianAge());
+        int num = JavaCountriesProjectApplication.countryList.countryList.size()/2;
+        return new ResponseEntity<>(JavaCountriesProjectApplication.countryList.countryList.get(num), HttpStatus.OK);
+    }
+
 }
